@@ -25,6 +25,8 @@ public class Program {
 			
 			System.out.println(arvore.posicao(25));
 			System.out.println(arvore.enesimoElemento(2));
+			System.out.println(arvore.quantidadeNos());
+			System.out.println(arvore.media());
 		}catch(ABBException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
