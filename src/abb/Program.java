@@ -15,7 +15,12 @@ public class Program {
 		arvore.getRaiz().getDir().setDir(90);
 		arvore.getRaiz().getDir().getDir().setEsq(80);
 		
-		System.out.println(arvore.pre_ordem(arvore.getRaiz()));
+		arvore.atribuirPosicoesOrdemSimetrica();
+		
+		String preOrdem = arvore.pre_ordem(arvore.getRaiz());
+		System.out.println(preOrdem);
+		
+		System.out.println(arvore.enesimoElemento(1));
 
 	}
 
