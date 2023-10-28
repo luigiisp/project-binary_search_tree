@@ -1,5 +1,7 @@
 package abb;
 
+import abb.exceptions.ABBException;
+
 public class Program {
 
 	public static void main(String[] args) {
@@ -14,14 +16,19 @@ public class Program {
 		arvore.getRaiz().getDir().setEsq(65);
 		arvore.getRaiz().getDir().setDir(90);
 		arvore.getRaiz().getDir().getDir().setEsq(80);
-		
-		arvore.atribuirPosicoesOrdemSimetrica();
-		
-		String preOrdem = arvore.pre_ordem(arvore.getRaiz());
-		System.out.println(preOrdem);
-		
-		System.out.println(arvore.enesimoElemento(1));
-
+		try {
+			arvore.atribuirPosicoesOrdemSimetrica();
+			
+			String preOrdem = arvore.pre_ordem(arvore.getRaiz());
+			System.out.println(preOrdem);
+			
+			
+			System.out.println(arvore.posicao(25));
+			System.out.println(arvore.enesimoElemento(2));
+		}catch(ABBException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 }

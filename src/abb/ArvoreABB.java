@@ -1,5 +1,7 @@
 package abb;
 
+import abb.exceptions.ABBException;
+
 public class ArvoreABB {
 	private No raiz;
 	static int temp = 1;
@@ -18,15 +20,16 @@ public class ArvoreABB {
 
 	public void atribuirPosicoesOrdemSimetrica(No no) {
 		if (no == null) {
-			return;
+			throw new ABBException("Nó passado como argumento é nulo!");
 		}
-		atribuirPosicoesOrdemSimetrica(no.getEsq());
-
+		if(no.getEsq() != null) {
+			atribuirPosicoesOrdemSimetrica(no.getEsq());
+		}
 		no.setPosicao(temp);
 		temp++;
-
-		atribuirPosicoesOrdemSimetrica(no.getDir());
-
+		if(no.getDir() != null) {
+			atribuirPosicoesOrdemSimetrica(no.getDir());
+		}
 		return;
 	}
 
@@ -36,7 +39,7 @@ public class ArvoreABB {
 
 	private int enesimoElemento(No no, int posicaoDesejada) {
 		if (no == null) {
-			return -1; 
+			throw new ABBException("Posição desejada não encontrada!");
 		}
 
 		if (posicaoDesejada == no.getPosicao()) {
@@ -50,15 +53,38 @@ public class ArvoreABB {
 		}
 	}
 
+	public int posicao(int x) {
+		return posicao(raiz, x);
+	}
+
+	private int posicao(No no, int valorBuscado) {
+		if (no == null) {
+			throw new ABBException("Valor desejado não encontrado");
+		}
+
+		if (valorBuscado == no.getValor()) {
+			return no.getPosicao();
+		}
+
+		if (valorBuscado < no.getValor()) {
+			return posicao(no.getEsq(), valorBuscado);
+		} else {
+			return posicao(no.getDir(), valorBuscado);
+		}
+	}
+
 	public String pre_ordem(No no) {
 		if (no == null) {
-			return "";
+			throw new ABBException("Nó passado como argumento é nulo");
 		}
 
 		String string = no.getValor() + " ";
-		string += pre_ordem(no.getEsq());
-		string += pre_ordem(no.getDir());
-
+		if(no.getEsq() !=null) {
+			string += pre_ordem(no.getEsq());
+		}
+		if(no.getDir() != null) {
+			string += pre_ordem(no.getDir());
+		}
 		return string;
 	}
 }
