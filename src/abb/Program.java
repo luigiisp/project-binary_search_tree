@@ -24,9 +24,10 @@ public class Program {
 			
 			
 			System.out.println(arvore.posicao(25));
-			System.out.println(arvore.enesimoElemento(2));
+			System.out.println(arvore.enesimoElemento(4));
 			System.out.println(arvore.quantidadeNos());
 			System.out.println(arvore.media());
+			System.out.println(arvore.mediana());
 		}catch(ABBException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();

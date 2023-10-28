@@ -25,6 +25,17 @@ public class ArvoreABB {
 		return 1 + quantidadeNos(no.getEsq()) + quantidadeNos(no.getDir());
 	}
 
+	public int soma() {
+		return soma(raiz);
+	}
+
+	private int soma(No no) {
+		if (no == null) {
+			return 0;
+		}
+		return no.getValor() + soma(no.getEsq()) + soma(no.getDir());
+	}
+
 	public void atribuirPosicoesOrdemSimetrica() {
 		atribuirPosicoesOrdemSimetrica(raiz);
 	}
@@ -47,7 +58,7 @@ public class ArvoreABB {
 	public int enesimoElemento(int posicaoDesejada) {
 		return enesimoElemento(raiz, posicaoDesejada);
 	}
-	
+
 	private int enesimoElemento(No no, int posicaoDesejada) {
 		if (no == null) {
 			throw new ABBException("Posição desejada não encontrada!");
@@ -84,21 +95,14 @@ public class ArvoreABB {
 		}
 	}
 	
-	public int soma() {
-		return soma(raiz);
-	}
-	
-	private int soma(No no) {
-		if (no == null) {
-			return 0;
-		}
-		return no.getValor() + soma(no.getEsq()) + soma(no.getDir());
+	public int mediana() {
+		return enesimoElemento(Math.round(quantidadeNos()/2));
 	}
 	
 	public int media() {
-		return soma()/quantidadeNos();
+		return soma() / quantidadeNos();
 	}
-	
+
 	public String pre_ordem(No no) {
 		if (no == null) {
 			throw new ABBException("Nó passado como argumento é nulo");
