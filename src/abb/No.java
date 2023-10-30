@@ -2,24 +2,14 @@ package abb;
 
 public class No {
 	private int valor;
-	private No pai;
 	private No esq;
 	private No dir;
 	private int posicao;
 
 	public No(int valor) {
 		this.valor = valor;
-		this.pai = null;
 		this.dir = null;
 		this.esq = null;
-	}
-
-	public int getPosicao() {
-		return posicao;
-	}
-
-	public void setPosicao(int posicao) {
-		this.posicao = posicao;
 	}
 
 	public int getValor() {
@@ -47,13 +37,12 @@ public class No {
 		No noDir = new No(valor);
 		this.dir = noDir;
 	}
-	public No getPai() {
-		return pai;
+
+	public int getPosicao() {
+		return posicao;
 	}
 
-	public void setPai(int valor) {
-		No noPai = new No(valor);
-		this.pai = noPai;
+	public void setPosicao(int posicao) {
+		this.posicao = posicao;
 	}
-
 }

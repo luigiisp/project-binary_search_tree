@@ -3,15 +3,15 @@ package abb;
 import abb.exceptions.ABBException;
 
 public class ArvoreABB {
-	private No raiz;
+	private No raiz = new No(-1);
 	static int temp = 1;
 
 	public No getRaiz() {
 		return raiz;
 	}
 
-	public void setRaiz(No raiz) {
-		this.raiz = raiz;
+	public void setRaiz(int valorDaRaiz) {
+		this.raiz = new No(valorDaRaiz);
 	}
 
 	public int quantidadeNos() {
@@ -25,19 +25,20 @@ public class ArvoreABB {
 		return 1 + quantidadeNos(no.getEsq()) + quantidadeNos(no.getDir());
 	}
 
-	public int soma() {
-		return soma(raiz);
+	public int somarElementos() {
+		return somarElementos(raiz);
 	}
 
-	private int soma(No no) {
+	private int somarElementos(No no) {
 		if (no == null) {
 			return 0;
 		}
-		return no.getValor() + soma(no.getEsq()) + soma(no.getDir());
+		return no.getValor() + somarElementos(no.getEsq()) + somarElementos(no.getDir());
 	}
 
 	public void atribuirPosicoesOrdemSimetrica() {
 		atribuirPosicoesOrdemSimetrica(raiz);
+		temp = 1;
 	}
 
 	public void atribuirPosicoesOrdemSimetrica(No no) {
@@ -53,6 +54,70 @@ public class ArvoreABB {
 			atribuirPosicoesOrdemSimetrica(no.getDir());
 		}
 		return;
+	}
+
+	public No buscarElemento(int valorDoElemento) throws ABBException {
+		if (valorDoElemento < 0) {
+			throw new ABBException("Tentativa de inserir valor negativo na árvore.");
+		}
+		return buscarElemento(raiz, valorDoElemento);
+	}
+
+	private No buscarElemento(No no, int valorDoElemento) {
+		if (no == null) {
+			return null;
+		}
+
+		if (valorDoElemento == no.getValor()) {
+			return no;
+		}
+		if (valorDoElemento < no.getValor()) {
+			return buscarElemento(no.getEsq(), valorDoElemento);
+		}
+		return buscarElemento(no.getDir(), valorDoElemento);
+	}
+
+	public void inserirElemento(int valorDoElemento) throws ABBException {
+		if (valorDoElemento < 0) {
+			throw new ABBException("Tentativa de acessar valor negativo na árvore.");
+		}
+		if (raiz.getValor() == -1) {
+			setRaiz(valorDoElemento);
+			return;
+		}
+		inserirElemento(raiz, valorDoElemento);
+		atribuirPosicoesOrdemSimetrica();
+	}
+
+	private int inserirElemento(No no, int valorDoElemento) {
+		if (no == null) {
+			return 1;
+		}
+		if (valorDoElemento < no.getValor()) {
+			if (inserirElemento(no.getEsq(), valorDoElemento) == 1) {
+				no.setEsq(valorDoElemento);
+			}
+		}
+		if (valorDoElemento > no.getValor()) {
+			if (inserirElemento(no.getDir(), valorDoElemento) == 1) {
+				no.setDir(valorDoElemento);
+			}
+		}
+		return 0;
+	}
+
+	public void removerElemento(int valorDoElemento) throws ABBException {
+		if (valorDoElemento < 0) {
+			throw new ABBException("Tentativa de acessar valor negativo na árvore.");
+		}
+		if (removerElemento(raiz, valorDoElemento) == -1) {
+			throw new ABBException("Tentativa de remover elemento inexistente");
+		}
+	}
+
+	private int removerElemento(No no, int valorDoElemento) {
+
+		return 0;
 	}
 
 	public int enesimoElemento(int posicaoDesejada) {
@@ -94,13 +159,13 @@ public class ArvoreABB {
 			return posicao(no.getDir(), valorBuscado);
 		}
 	}
-	
+
 	public int mediana() {
-		return enesimoElemento(Math.round(quantidadeNos()/2));
+		return enesimoElemento(Math.round(quantidadeNos() / 2));
 	}
-	
+
 	public int media() {
-		return soma() / quantidadeNos();
+		return somarElementos() / quantidadeNos();
 	}
 
 	public String pre_ordem(No no) {
