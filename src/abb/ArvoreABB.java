@@ -36,6 +36,39 @@ public class ArvoreABB {
 		return no.getValor() + somarElementos(no.getEsq()) + somarElementos(no.getDir());
 	}
 
+	public void atribuirAlturaPosOrdem() {
+		atribuirAlturaPosOrdem(raiz);
+	}
+
+	private void atribuirAlturaPosOrdem(No no) {
+		if (no.getEsq() != null) {
+			atribuirAlturaPosOrdem(no.getEsq());
+		}
+		if (no.getDir() != null) {
+			atribuirAlturaPosOrdem(no.getDir());
+		}
+		atribuirAltura(no);
+	}
+
+	private void atribuirAltura(No no) {
+		int alt1, alt2;
+		if (no.getEsq() == null) {
+			alt1 = 0;
+		} else {
+			alt1 = no.getEsq().getAltura();
+		}
+		if (no.getDir() == null) {
+			alt2 = 0;
+		} else {
+			alt2 = no.getDir().getAltura();
+		}
+		if (alt1 > alt2) {
+			no.setAltura(alt1 + 1);
+		} else {
+			no.setAltura(alt2 + 1);
+		}
+	}
+
 	public void atribuirPosicoesOrdemSimetrica() {
 		atribuirPosicoesOrdemSimetrica(raiz);
 		temp = 1;
@@ -166,6 +199,44 @@ public class ArvoreABB {
 
 	public int media() {
 		return somarElementos() / quantidadeNos();
+	}
+
+	public boolean ehCompleta() {
+		if (raiz == null) {
+			return true;
+		}
+		return ehCompleta(raiz);
+	}
+
+	private boolean ehCompleta(No no) {
+		if (no.getEsq() != null && no.getDir() != null) {
+			return ehCompleta(no.getEsq()) && ehCompleta(no.getDir());
+		} else {
+			if (no.getAltura() == 1 || no.getAltura() == 2) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	public boolean ehCheia() {
+		if (raiz == null) {
+			return true;
+		}
+		return ehCheia(raiz);
+	}
+
+	private boolean ehCheia(No no) {
+		if (no.getEsq() != null && no.getDir() != null) {
+			return ehCheia(no.getEsq()) && ehCheia(no.getDir());
+		} else {
+			if (no.getAltura() == 1) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 
 	public String pre_ordem(No no) {

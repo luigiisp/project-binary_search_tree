@@ -4,6 +4,7 @@ public class No {
 	private int valor;
 	private No esq;
 	private No dir;
+	private int altura;
 	private int posicao;
 
 	public No(int valor) {
@@ -44,5 +45,13 @@ public class No {
 
 	public void setPosicao(int posicao) {
 		this.posicao = posicao;
+	}
+
+	public int getAltura() {
+		return altura;
+	}
+
+	public void setAltura(int altura) {
+		this.altura = altura;
 	}
 }
