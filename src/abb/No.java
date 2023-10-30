@@ -2,8 +2,9 @@ package abb;
 
 public class No {
 	private int valor;
-	private No esq;
-	private No dir;
+	private No esq = null;
+	private No dir = null;
+	private No pai = null;
 	private int altura;
 	private int posicao;
 
@@ -30,6 +31,10 @@ public class No {
 		this.esq = noEsq;
 	}
 
+	public void setEsq(No no) {
+		this.esq = no;
+	}
+
 	public No getDir() {
 		return dir;
 	}
@@ -37,6 +42,18 @@ public class No {
 	public void setDir(int valor) {
 		No noDir = new No(valor);
 		this.dir = noDir;
+	}
+
+	public void setDir(No no) {
+		this.dir = no;
+	}
+
+	public No getPai() {
+		return pai;
+	}
+
+	public void setPai(No pai) {
+		this.pai = pai;
 	}
 
 	public int getPosicao() {

@@ -14,6 +14,10 @@ public class ArvoreABB {
 		this.raiz = new No(valorDaRaiz);
 	}
 
+	public void setRaiz(No no) {
+		this.raiz = no;
+	}
+
 	public int quantidadeNos() {
 		return quantidadeNos(raiz);
 	}
@@ -34,6 +38,17 @@ public class ArvoreABB {
 			return 0;
 		}
 		return no.getValor() + somarElementos(no.getEsq()) + somarElementos(no.getDir());
+	}
+
+	private No getMaiorElementoDaArvore(No raizDaArvore) throws ABBException {
+		if (raizDaArvore == null) {
+			throw new ABBException("Tentativa de acessar árvore inexistente.");
+		}
+
+		while (raizDaArvore.getDir() != null) {
+			raizDaArvore = raizDaArvore.getDir();
+		}
+		return raizDaArvore;
 	}
 
 	public void atribuirAlturaPosOrdem() {
@@ -129,14 +144,58 @@ public class ArvoreABB {
 		if (valorDoElemento < no.getValor()) {
 			if (inserirElemento(no.getEsq(), valorDoElemento) == 1) {
 				no.setEsq(valorDoElemento);
+				no.getEsq().setPai(no);
 			}
 		}
 		if (valorDoElemento > no.getValor()) {
 			if (inserirElemento(no.getDir(), valorDoElemento) == 1) {
 				no.setDir(valorDoElemento);
+				no.getDir().setPai(no);
 			}
 		}
 		return 0;
+	}
+
+	private void detectarCasoDeRemocao(No noParaRemover) throws ABBException {
+		No noPai = noParaRemover.getPai();
+
+		if (noParaRemover.getEsq() == null && noParaRemover.getDir() == null) {
+			System.out.println("Caso 1");
+			if (noPai == null) {
+				this.setRaiz(null);
+				return;
+			}
+
+			if (noParaRemover == noPai.getEsq()) {
+				noPai.setEsq(null);
+			} else {
+				noPai.setDir(null);
+			}
+
+			return;
+		} else if (noParaRemover.getEsq() == null || noParaRemover.getDir() == null) {
+			System.out.println("Caso 2");
+			No noFilho = (noParaRemover.getEsq() != null) ? noParaRemover.getEsq() : noParaRemover.getDir();
+
+			if (noPai == null) {
+				this.setRaiz(noFilho);
+				return;
+			}
+			if (noParaRemover == noPai.getEsq()) {
+				noPai.setEsq(noFilho);
+			} else {
+				noPai.setDir(noFilho);
+			}
+
+			return;
+		} else {
+			System.out.println("Caso 3");
+			No noSubstituto = getMaiorElementoDaArvore(noParaRemover.getEsq());
+			noParaRemover.setValor(noSubstituto.getValor());
+			removerElemento(noParaRemover.getEsq(), noSubstituto.getValor());
+
+			return;
+		}
 	}
 
 	public void removerElemento(int valorDoElemento) throws ABBException {
@@ -148,56 +207,92 @@ public class ArvoreABB {
 		}
 	}
 
-	private int removerElemento(No no, int valorDoElemento) {
+	private int removerElemento(No no, int valorDoElemento) throws ABBException {
+		if (no == raiz && valorDoElemento == raiz.getValor()) {
+			detectarCasoDeRemocao(raiz);
+			return 0;
+		}
 
+		if (no == null) {
+			return -1;
+		}
+		if (valorDoElemento == no.getValor()) {
+			detectarCasoDeRemocao(no);
+			return 1;
+		}
+		if (valorDoElemento < no.getValor()) {
+			if (removerElemento(no.getEsq(), valorDoElemento) != 1) {
+				return 0;
+			}
+		} else {
+			if (removerElemento(no.getDir(), valorDoElemento) != 1) {
+				return 0;
+			}
+		}
 		return 0;
 	}
 
-	public int enesimoElemento(int posicaoDesejada) {
-		return enesimoElemento(raiz, posicaoDesejada);
+	public int enesimoElemento(int n) throws ABBException {
+		if (n <= 0) {
+			throw new ABBException("Tentativa de acessar elemento com indice não positivo.");
+		}
+		int valorDoElemento = enesimoElemento(raiz, n);
+		if (valorDoElemento == -1) {
+			throw new ABBException("Tentativa de acessar elemento inexistente.");
+		}
+		return valorDoElemento;
 	}
 
-	private int enesimoElemento(No no, int posicaoDesejada) {
+	private int enesimoElemento(No no, int n) {
 		if (no == null) {
-			throw new ABBException("Posição desejada não encontrada!");
+			return -1;
 		}
 
-		if (posicaoDesejada == no.getPosicao()) {
+		if (n == no.getPosicao()) {
 			return no.getValor();
 		}
-
-		if (posicaoDesejada < no.getPosicao()) {
-			return enesimoElemento(no.getEsq(), posicaoDesejada);
-		} else {
-			return enesimoElemento(no.getDir(), posicaoDesejada);
+		if (n < no.getPosicao()) {
+			return enesimoElemento(no.getEsq(), n);
 		}
+		return enesimoElemento(no.getDir(), n);
 	}
 
-	public int posicao(int x) {
-		return posicao(raiz, x);
+	public int posicao(int valorDoElemento) throws ABBException {
+		if (valorDoElemento < 0) {
+			throw new ABBException("Tentativa de acessar elemento com valor negativo");
+		}
+		int posicaoDoElemento = posicao(raiz, valorDoElemento);
+		if (posicaoDoElemento == -1) {
+			throw new ABBException("Tentativa de acessar elemento inexistente.");
+		}
+		return posicaoDoElemento;
 	}
 
-	private int posicao(No no, int valorBuscado) {
+	private int posicao(No no, int valorDoElemento) {
 		if (no == null) {
-			throw new ABBException("Valor desejado não encontrado");
+			return -1;
 		}
 
-		if (valorBuscado == no.getValor()) {
+		if (valorDoElemento == no.getValor()) {
 			return no.getPosicao();
 		}
-
-		if (valorBuscado < no.getValor()) {
-			return posicao(no.getEsq(), valorBuscado);
-		} else {
-			return posicao(no.getDir(), valorBuscado);
+		if (valorDoElemento < no.getValor()) {
+			return posicao(no.getEsq(), valorDoElemento);
 		}
+		return posicao(no.getDir(), valorDoElemento);
 	}
 
 	public int mediana() {
-		return enesimoElemento(Math.round(quantidadeNos() / 2));
+		if (quantidadeNos() <= 0) {
+			throw new ABBException("A árvore não possui nós.");
+		}
+		return enesimoElemento((int) Math.floor(quantidadeNos() / 2));
 	}
 
-	public int media() {
+	public int media() throws ABBException {
+		if (quantidadeNos() <= 0) {
+			throw new ABBException("A árvore não possui nós.");
+		}
 		return somarElementos() / quantidadeNos();
 	}
 
