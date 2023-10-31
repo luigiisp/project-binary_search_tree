@@ -1,39 +1,43 @@
 package abb;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 import abb.exceptions.ABBException;
 
 public class Program {
 
 	public static void main(String[] args) {
-		ArvoreABB arvore = new ArvoreABB();
-		arvore.setRaiz(50);
-
-		arvore.getRaiz().setEsq(35);
-		arvore.getRaiz().getEsq().setEsq(25);
-		arvore.getRaiz().getEsq().setEsq(37);
-		arvore.getRaiz().getEsq().getEsq().setDir(30);
-
-		arvore.getRaiz().setDir(70);
-		arvore.getRaiz().getDir().setEsq(65);
-		arvore.getRaiz().getDir().setDir(90);
-		arvore.getRaiz().getDir().getDir().setEsq(80);
+		BufferedReader entradaABB = null;
+		BufferedReader comandosABB = null;
+		ArvoreABB arvoreABB = new ArvoreABB();
 		try {
-			arvore.atribuirPosicoesOrdemSimetrica();
-			arvore.atribuirAlturaPosOrdem();
-			String preOrdem = arvore.pre_ordem(arvore.getRaiz());
-			System.out.println(preOrdem);
+			entradaABB = new BufferedReader(new FileReader("D:\\Desktop\\projetoEDB\\ProjetoArvoreABB\\entradaABB.txt"));
+			String line = entradaABB.readLine();
+			String[] valoresArvore = line.split(" ");
+			for(String valor : valoresArvore) {
+				arvoreABB.inserirElemento(Integer.parseInt(valor));
+			}
+			entradaABB.close();
 			
 			
-			//System.out.println(arvore.posicao(25));
-			//System.out.println(arvore.enesimoElemento(4));
-			//System.out.println(arvore.quantidadeNos());
-			//System.out.println(arvore.media());
-			//System.out.println(arvore.mediana());
-			System.out.println(arvore.ehCompleta());
-			System.out.println(arvore.ehCheia());
-		}catch(ABBException e) {
+			comandosABB = new BufferedReader(new FileReader("D:\\Desktop\\projetoEDB\\ProjetoArvoreABB\\comandosABB.txt"));
+			line = comandosABB.readLine();
+			while(line != null) {
+				//checar função
+				line = comandosABB.readLine();
+			}
+			comandosABB.close();
+			arvoreABB.imprimeArvore(1);
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ABBException e) {
 			System.out.println(e.getMessage());
 		}
 	}
-
 }

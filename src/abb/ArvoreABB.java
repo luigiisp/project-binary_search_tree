@@ -135,6 +135,7 @@ public class ArvoreABB {
 		}
 		inserirElemento(raiz, valorDoElemento);
 		atribuirPosicoesOrdemSimetrica();
+		atribuirAlturaPosOrdem();
 	}
 
 	private int inserirElemento(No no, int valorDoElemento) {
@@ -205,6 +206,8 @@ public class ArvoreABB {
 		if (removerElemento(raiz, valorDoElemento) == -1) {
 			throw new ABBException("Tentativa de remover elemento inexistente");
 		}
+		atribuirPosicoesOrdemSimetrica();
+		atribuirAlturaPosOrdem();
 	}
 
 	private int removerElemento(No no, int valorDoElemento) throws ABBException {
@@ -347,5 +350,52 @@ public class ArvoreABB {
 			string += pre_ordem(no.getDir());
 		}
 		return string;
+	}
+
+	public void imprimeArvore(int s) throws ABBException {
+		if (s == 1) {
+			imprimeArvoreFormato1(raiz, 0, raiz.getAltura());
+			return;
+		} else {
+			imprimeArvoreFormato2(raiz, 0, raiz.getAltura());
+			return;
+		}
+	}
+
+	private void imprimeArvoreFormato1(No no, int nivel, int alturaDaRaiz) throws ABBException {
+		if (no == null) {
+			throw new ABBException("Nó passado como argumento é nulo");
+		}
+		for (int i = 0; i < nivel; i++) {
+			System.out.printf("      ");
+		}
+		System.out.printf("%d", no.getValor());
+		for (int i = 0; i < alturaDaRaiz - (nivel); i++) {
+			System.out.printf("------");
+		}
+		System.out.printf("\n");
+		nivel++;
+		if (no.getEsq() != null) {
+			imprimeArvoreFormato1(no.getEsq(), nivel, alturaDaRaiz);
+		}
+		if (no.getDir() != null) {
+			imprimeArvoreFormato1(no.getDir(), nivel, alturaDaRaiz);
+		}
+	}
+
+	private void imprimeArvoreFormato2(No no, int nivel, int alturaDaRaiz) throws ABBException {
+		if (no == null) {
+			throw new ABBException("Nó passado como argumento é nulo");
+		}
+		System.out.printf("(");
+		System.out.printf("%d", no.getValor());
+		nivel++;
+		if (no.getEsq() != null) {
+			imprimeArvoreFormato2(no.getEsq(), nivel, alturaDaRaiz);
+		}
+		if (no.getDir() != null) {
+			imprimeArvoreFormato2(no.getDir(), nivel, alturaDaRaiz);
+		}
+		System.out.printf(")");
 	}
 }
