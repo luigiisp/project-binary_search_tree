@@ -17,7 +17,7 @@ public class ArvoreABB {
 	public void setRaiz(No no) {
 		this.raiz = no;
 	}
-
+	
 	public int quantidadeNos() {
 		return quantidadeNos(raiz);
 	}
@@ -358,6 +358,7 @@ public class ArvoreABB {
 			return;
 		} else {
 			imprimeArvoreFormato2(raiz, 0, raiz.getAltura());
+			System.out.println();
 			return;
 		}
 	}

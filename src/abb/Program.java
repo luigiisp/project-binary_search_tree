@@ -14,23 +14,23 @@ public class Program {
 		BufferedReader comandosABB = null;
 		ArvoreABB arvoreABB = new ArvoreABB();
 		try {
-			entradaABB = new BufferedReader(new FileReader("D:\\Desktop\\projetoEDB\\ProjetoArvoreABB\\entradaABB.txt"));
+			entradaABB = new BufferedReader(
+					new FileReader("D:\\Desktop\\projetoEDB\\ProjetoArvoreABB\\entradaABB.txt"));
 			String line = entradaABB.readLine();
 			String[] valoresArvore = line.split(" ");
-			for(String valor : valoresArvore) {
+			for (String valor : valoresArvore) {
 				arvoreABB.inserirElemento(Integer.parseInt(valor));
 			}
 			entradaABB.close();
-			
-			
-			comandosABB = new BufferedReader(new FileReader("D:\\Desktop\\projetoEDB\\ProjetoArvoreABB\\comandosABB.txt"));
+
+			comandosABB = new BufferedReader(
+					new FileReader("D:\\Desktop\\projetoEDB\\ProjetoArvoreABB\\comandosABB.txt"));
 			line = comandosABB.readLine();
-			while(line != null) {
-				//checar função
+			while (line != null) {
+				checarFuncao(line,arvoreABB);
 				line = comandosABB.readLine();
 			}
 			comandosABB.close();
-			arvoreABB.imprimeArvore(1);
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -38,6 +38,33 @@ public class Program {
 			e.printStackTrace();
 		} catch (ABBException e) {
 			System.out.println(e.getMessage());
+		}
+	}
+
+	public static void checarFuncao(String line, ArvoreABB arvoreABB) {
+		if (line.equals("MEDIANA")) {
+			System.out.println("Mediana = " + arvoreABB.mediana());
+		} else if (line.equals("MEDIA")) {
+			System.out.println("Média = " +arvoreABB.media());
+		} else if (line.equals("CHEIA")) {
+			System.out.println("Cheia = " + arvoreABB.ehCheia());
+		} else if (line.equals("COMPLETA")) {
+			System.out.println("Completa = " + arvoreABB.ehCompleta());
+		} else {
+			String[] temp = line.split(" ");
+			if (temp[0].equals("ENESIMO")) {
+				System.out
+						.println("Elemento " + temp[1] + " = " + arvoreABB.enesimoElemento(Integer.parseInt(temp[1])));
+			}
+			if (temp[0].equals("POSICAO")) {
+				System.out.println("Posição " + temp[1] + " = " + arvoreABB.posicao(Integer.parseInt(temp[1])));
+			}
+			if (temp[0].equals("IMPRIMA")) {
+				arvoreABB.imprimeArvore(Integer.parseInt(temp[1]));
+			}
+			if (temp[0].equals("REMOVA")) {
+				arvoreABB.removerElemento(Integer.parseInt(temp[1]));
+			}
 		}
 	}
 }
