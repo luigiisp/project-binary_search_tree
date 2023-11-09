@@ -17,7 +17,7 @@ public class ArvoreABB {
 	public void setRaiz(No no) {
 		this.raiz = no;
 	}
-	
+
 	public int quantidadeNos() {
 		return quantidadeNos(raiz);
 	}
@@ -29,11 +29,11 @@ public class ArvoreABB {
 		return 1 + quantidadeNos(no.getEsq()) + quantidadeNos(no.getDir());
 	}
 
-	public int somarElementos() {
+	public double somarElementos() {
 		return somarElementos(raiz);
 	}
 
-	private int somarElementos(No no) {
+	private double somarElementos(No no) {
 		if (no == null) {
 			return 0;
 		}
@@ -133,9 +133,12 @@ public class ArvoreABB {
 			setRaiz(valorDoElemento);
 			return;
 		}
+		
 		inserirElemento(raiz, valorDoElemento);
+		//System.out.println("ADICIONADO");
 		atribuirPosicoesOrdemSimetrica();
 		atribuirAlturaPosOrdem();
+		
 	}
 
 	private int inserirElemento(No no, int valorDoElemento) {
@@ -154,6 +157,9 @@ public class ArvoreABB {
 				no.getDir().setPai(no);
 			}
 		}
+		/*if(valorDoElemento == no.getValor()) {
+			temp = 2;
+		}*/
 		return 0;
 	}
 
@@ -161,7 +167,6 @@ public class ArvoreABB {
 		No noPai = noParaRemover.getPai();
 
 		if (noParaRemover.getEsq() == null && noParaRemover.getDir() == null) {
-			System.out.println("Caso 1");
 			if (noPai == null) {
 				this.setRaiz(null);
 				return;
@@ -172,10 +177,8 @@ public class ArvoreABB {
 			} else {
 				noPai.setDir(null);
 			}
-
 			return;
 		} else if (noParaRemover.getEsq() == null || noParaRemover.getDir() == null) {
-			System.out.println("Caso 2");
 			No noFilho = (noParaRemover.getEsq() != null) ? noParaRemover.getEsq() : noParaRemover.getDir();
 
 			if (noPai == null) {
@@ -190,7 +193,6 @@ public class ArvoreABB {
 
 			return;
 		} else {
-			System.out.println("Caso 3");
 			No noSubstituto = getMaiorElementoDaArvore(noParaRemover.getEsq());
 			noParaRemover.setValor(noSubstituto.getValor());
 			removerElemento(noParaRemover.getEsq(), noSubstituto.getValor());
@@ -204,8 +206,11 @@ public class ArvoreABB {
 			throw new ABBException("Tentativa de acessar valor negativo na árvore.");
 		}
 		if (removerElemento(raiz, valorDoElemento) == -1) {
-			throw new ABBException("Tentativa de remover elemento inexistente");
+			System.out.println(valorDoElemento + " não está na árvore, não pode ser removido");
+			return;
 		}
+		removerElemento(raiz, valorDoElemento);
+		System.out.println(valorDoElemento + " removido");
 		atribuirPosicoesOrdemSimetrica();
 		atribuirAlturaPosOrdem();
 	}
@@ -289,14 +294,14 @@ public class ArvoreABB {
 		if (quantidadeNos() <= 0) {
 			throw new ABBException("A árvore não possui nós.");
 		}
-		return enesimoElemento((int) Math.floor(quantidadeNos() / 2));
+		return enesimoElemento((int)Math.ceil((double)quantidadeNos() / 2));
 	}
 
-	public int media() throws ABBException {
+	public double media(int x) throws ABBException {
 		if (quantidadeNos() <= 0) {
 			throw new ABBException("A árvore não possui nós.");
 		}
-		return somarElementos() / quantidadeNos();
+		return somarElementos(buscarElemento(x)) / quantidadeNos(buscarElemento(x));
 	}
 
 	public boolean ehCompleta() {

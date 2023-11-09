@@ -27,7 +27,7 @@ public class Program {
 					new FileReader("D:\\Desktop\\projetoEDB\\ProjetoArvoreABB\\comandosABB.txt"));
 			line = comandosABB.readLine();
 			while (line != null) {
-				checarFuncao(line,arvoreABB);
+				checarFuncao(line, arvoreABB);
 				line = comandosABB.readLine();
 			}
 			comandosABB.close();
@@ -44,12 +44,12 @@ public class Program {
 	public static void checarFuncao(String line, ArvoreABB arvoreABB) {
 		if (line.equals("MEDIANA")) {
 			System.out.println("Mediana = " + arvoreABB.mediana());
-		} else if (line.equals("MEDIA")) {
-			System.out.println("Média = " +arvoreABB.media());
 		} else if (line.equals("CHEIA")) {
-			System.out.println("Cheia = " + arvoreABB.ehCheia());
+			System.out.println(arvoreABB.ehCheia() == true ? "A árvore é cheia" : "A árvore não é cheia");
 		} else if (line.equals("COMPLETA")) {
-			System.out.println("Completa = " + arvoreABB.ehCompleta());
+			System.out.println(arvoreABB.ehCompleta() == true ? "A árvore é completa" : "A árvore não é completa");
+		} else if (line.equals("PREORDEM")) {
+			System.out.println(arvoreABB.pre_ordem(arvoreABB.getRaiz()));
 		} else {
 			String[] temp = line.split(" ");
 			if (temp[0].equals("ENESIMO")) {
@@ -59,8 +59,19 @@ public class Program {
 			if (temp[0].equals("POSICAO")) {
 				System.out.println("Posição " + temp[1] + " = " + arvoreABB.posicao(Integer.parseInt(temp[1])));
 			}
+			if (temp[0].equals("MEDIA")) {
+				System.out.println("Média = " + arvoreABB.media(Integer.parseInt(temp[1])));
+			}
 			if (temp[0].equals("IMPRIMA")) {
 				arvoreABB.imprimeArvore(Integer.parseInt(temp[1]));
+			}
+			if (temp[0].equals("INSIRA")) {
+				arvoreABB.inserirElemento(Integer.parseInt(temp[1]));
+			}
+			if (temp[0].equals("BUSCAR")) {
+				System.out
+						.println(arvoreABB.buscarElemento(Integer.parseInt(temp[1])) == null ? "elemento não encontrado"
+								: "chave encontrada");
 			}
 			if (temp[0].equals("REMOVA")) {
 				arvoreABB.removerElemento(Integer.parseInt(temp[1]));
