@@ -14,8 +14,7 @@ public class Program {
 		BufferedReader comandosABB = null;
 		ArvoreABB arvoreABB = new ArvoreABB();
 		try {
-			entradaABB = new BufferedReader(
-					new FileReader("D:\\Desktop\\projetoEDB\\ProjetoArvoreABB\\entradaABB.txt"));
+			entradaABB = new BufferedReader(new FileReader(args[0]));
 			String line = entradaABB.readLine();
 			String[] valoresArvore = line.split(" ");
 			for (String valor : valoresArvore) {
@@ -23,8 +22,7 @@ public class Program {
 			}
 			entradaABB.close();
 
-			comandosABB = new BufferedReader(
-					new FileReader("D:\\Desktop\\projetoEDB\\ProjetoArvoreABB\\comandosABB.txt"));
+			comandosABB = new BufferedReader(new FileReader(args[1]));
 			line = comandosABB.readLine();
 			while (line != null) {
 				checarFuncao(line, arvoreABB);
@@ -57,16 +55,22 @@ public class Program {
 						.println("Elemento " + temp[1] + " = " + arvoreABB.enesimoElemento(Integer.parseInt(temp[1])));
 			}
 			if (temp[0].equals("POSICAO")) {
-				System.out.println("Posição " + temp[1] + " = " + arvoreABB.posicao(Integer.parseInt(temp[1])));
+				System.out
+						.println("Posição do valor " + temp[1] + " = " + arvoreABB.posicao(Integer.parseInt(temp[1])));
 			}
 			if (temp[0].equals("MEDIA")) {
-				System.out.println("Média = " + arvoreABB.media(Integer.parseInt(temp[1])));
+				System.out.println("Média de " + temp[1] + " = " + arvoreABB.media(Integer.parseInt(temp[1])));
 			}
 			if (temp[0].equals("IMPRIMA")) {
 				arvoreABB.imprimeArvore(Integer.parseInt(temp[1]));
 			}
 			if (temp[0].equals("INSIRA")) {
-				arvoreABB.inserirElemento(Integer.parseInt(temp[1]));
+				int auxiliar = arvoreABB.inserirElemento(Integer.parseInt(temp[1]));
+				if (auxiliar == 2) {
+					System.out.println(temp[1] + " já está na árvore, não pode ser inserido");
+				} else {
+					System.out.println(temp[1] + " adicionado");
+				}
 			}
 			if (temp[0].equals("BUSCAR")) {
 				System.out
@@ -74,7 +78,12 @@ public class Program {
 								: "chave encontrada");
 			}
 			if (temp[0].equals("REMOVA")) {
-				arvoreABB.removerElemento(Integer.parseInt(temp[1]));
+				int auxiliar = arvoreABB.removerElemento(Integer.parseInt(temp[1]));
+				if (auxiliar == -1) {
+					System.out.println(temp[1] + " não na árvore, não pode ser removido");
+				} else {
+					System.out.println(temp[1] + " removido");
+				}
 			}
 		}
 	}

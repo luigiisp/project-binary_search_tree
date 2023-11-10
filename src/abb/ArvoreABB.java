@@ -125,20 +125,19 @@ public class ArvoreABB {
 		return buscarElemento(no.getDir(), valorDoElemento);
 	}
 
-	public void inserirElemento(int valorDoElemento) throws ABBException {
+	public int inserirElemento(int valorDoElemento) throws ABBException {
 		if (valorDoElemento < 0) {
 			throw new ABBException("Tentativa de acessar valor negativo na árvore.");
 		}
 		if (raiz.getValor() == -1) {
 			setRaiz(valorDoElemento);
-			return;
+			return -1;
 		}
-		
-		inserirElemento(raiz, valorDoElemento);
-		//System.out.println("ADICIONADO");
+
+		int retornado = inserirElemento(raiz, valorDoElemento);
 		atribuirPosicoesOrdemSimetrica();
 		atribuirAlturaPosOrdem();
-		
+		return retornado;
 	}
 
 	private int inserirElemento(No no, int valorDoElemento) {
@@ -146,20 +145,26 @@ public class ArvoreABB {
 			return 1;
 		}
 		if (valorDoElemento < no.getValor()) {
-			if (inserirElemento(no.getEsq(), valorDoElemento) == 1) {
+			int retornado = inserirElemento(no.getEsq(), valorDoElemento);
+			if (retornado == 1) {
 				no.setEsq(valorDoElemento);
 				no.getEsq().setPai(no);
+			} else if (retornado == 2) {
+				return 2;
 			}
 		}
 		if (valorDoElemento > no.getValor()) {
-			if (inserirElemento(no.getDir(), valorDoElemento) == 1) {
+			int retornado = inserirElemento(no.getDir(), valorDoElemento);
+			if (retornado == 1) {
 				no.setDir(valorDoElemento);
 				no.getDir().setPai(no);
+			} else if (retornado == 2) {
+				return 2;
 			}
 		}
-		/*if(valorDoElemento == no.getValor()) {
-			temp = 2;
-		}*/
+		if (valorDoElemento == no.getValor()) {
+			return 2;
+		}
 		return 0;
 	}
 
@@ -201,18 +206,17 @@ public class ArvoreABB {
 		}
 	}
 
-	public void removerElemento(int valorDoElemento) throws ABBException {
+	public int removerElemento(int valorDoElemento) throws ABBException {
 		if (valorDoElemento < 0) {
 			throw new ABBException("Tentativa de acessar valor negativo na árvore.");
 		}
 		if (removerElemento(raiz, valorDoElemento) == -1) {
-			System.out.println(valorDoElemento + " não está na árvore, não pode ser removido");
-			return;
+			return -1;
 		}
 		removerElemento(raiz, valorDoElemento);
-		System.out.println(valorDoElemento + " removido");
 		atribuirPosicoesOrdemSimetrica();
 		atribuirAlturaPosOrdem();
+		return 0;
 	}
 
 	private int removerElemento(No no, int valorDoElemento) throws ABBException {
@@ -229,12 +233,18 @@ public class ArvoreABB {
 			return 1;
 		}
 		if (valorDoElemento < no.getValor()) {
-			if (removerElemento(no.getEsq(), valorDoElemento) != 1) {
+			int retornado = removerElemento(no.getEsq(), valorDoElemento);
+			if (retornado == 0) {
 				return 0;
+			} else if (retornado == -1) {
+				return -1;
 			}
 		} else {
-			if (removerElemento(no.getDir(), valorDoElemento) != 1) {
+			int retornado = removerElemento(no.getDir(), valorDoElemento);
+			if (retornado == 0) {
 				return 0;
+			} else if (retornado == -1) {
+				return -1;
 			}
 		}
 		return 0;
@@ -294,7 +304,7 @@ public class ArvoreABB {
 		if (quantidadeNos() <= 0) {
 			throw new ABBException("A árvore não possui nós.");
 		}
-		return enesimoElemento((int)Math.ceil((double)quantidadeNos() / 2));
+		return enesimoElemento((int) Math.ceil((double) quantidadeNos() / 2));
 	}
 
 	public double media(int x) throws ABBException {
