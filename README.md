@@ -1,5 +1,5 @@
 # project-binary_search_tree
-[![NPM](https://img.shields.io/npm/l/react)]
+[![NPM](https://img.shields.io/npm/l/react)] (https://github.com/luigiisp/project-binary_search_tree/blob/main/LICENSE)
 
 # Sobre o Projeto
 Projeto referente a disciplina de Estrutura de Dados Básicas 2, com o objetivo de criação e implementação de métodos em uma Árvore Binária de Busca (ABB), utilizando a linguagem de programação java.
@@ -15,7 +15,9 @@ Projeto referente a disciplina de Estrutura de Dados Básicas 2, com o objetivo 
 
 # Autor
 Luigi Soares Peixoto
-Elson Freire Filho
 
 https://www.linkedin.com/in/luigi-peixoto-825291238/
+
+Elson Freire Filho
+
 https://www.linkedin.com/in/elson-freire-filho-38414b203/
