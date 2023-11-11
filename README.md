@@ -8,7 +8,7 @@ Projeto referente a disciplina de Estrutura de Dados Básicas 2, com o objetivo 
 - Java
  
 # Como executar o projeto
-- Passar os endereços dos arquivos que serão lidos como argumento nax main e executar.
+- Passar os endereços dos arquivos que serão lidos como argumento na main e executar. O primeiro parâmetro deve conter o endereço de um arquivo .txt com os valores referentes a chaves de nós que serão inseridos na ABB, o segundo parâmetro conter o endereço de um arquivo .txt que com os nomes dos métodos que serão executados no programa.
 
 # clonar repositório
 - git clone https://github.com/luigiisp/project-binary_search_tree.git
