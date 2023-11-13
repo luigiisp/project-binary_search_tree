@@ -80,7 +80,7 @@ public class Program {
 			if (temp[0].equals("REMOVA")) {
 				int auxiliar = arvoreABB.removerElemento(Integer.parseInt(temp[1]));
 				if (auxiliar == -1) {
-					System.out.println(temp[1] + " não na árvore, não pode ser removido");
+					System.out.println(temp[1] + " não está na árvore, não pode ser removido");
 				} else {
 					System.out.println(temp[1] + " removido");
 				}

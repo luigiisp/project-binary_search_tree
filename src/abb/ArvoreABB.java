@@ -168,44 +168,6 @@ public class ArvoreABB {
 		return 0;
 	}
 
-	private void detectarCasoDeRemocao(No noParaRemover) throws ABBException {
-		No noPai = noParaRemover.getPai();
-
-		if (noParaRemover.getEsq() == null && noParaRemover.getDir() == null) {
-			if (noPai == null) {
-				this.setRaiz(null);
-				return;
-			}
-
-			if (noParaRemover == noPai.getEsq()) {
-				noPai.setEsq(null);
-			} else {
-				noPai.setDir(null);
-			}
-			return;
-		} else if (noParaRemover.getEsq() == null || noParaRemover.getDir() == null) {
-			No noFilho = (noParaRemover.getEsq() != null) ? noParaRemover.getEsq() : noParaRemover.getDir();
-
-			if (noPai == null) {
-				this.setRaiz(noFilho);
-				return;
-			}
-			if (noParaRemover == noPai.getEsq()) {
-				noPai.setEsq(noFilho);
-			} else {
-				noPai.setDir(noFilho);
-			}
-
-			return;
-		} else {
-			No noSubstituto = getMaiorElementoDaArvore(noParaRemover.getEsq());
-			noParaRemover.setValor(noSubstituto.getValor());
-			removerElemento(noParaRemover.getEsq(), noSubstituto.getValor());
-
-			return;
-		}
-	}
-
 	public int removerElemento(int valorDoElemento) throws ABBException {
 		if (valorDoElemento < 0) {
 			throw new ABBException("Tentativa de acessar valor negativo na árvore.");
@@ -220,16 +182,47 @@ public class ArvoreABB {
 	}
 
 	private int removerElemento(No no, int valorDoElemento) throws ABBException {
-		if (no == raiz && valorDoElemento == raiz.getValor()) {
-			detectarCasoDeRemocao(raiz);
-			return 0;
-		}
 
 		if (no == null) {
 			return -1;
 		}
 		if (valorDoElemento == no.getValor()) {
-			detectarCasoDeRemocao(no);
+
+			No noPai = no.getPai();
+
+			if (no.getEsq() == null && no.getDir() == null) {
+
+				if (noPai == null) {
+					this.setRaiz(null);
+				} else {
+					if (noPai.getEsq() == no) {
+						noPai.setEsq(null);
+					} else {
+						noPai.setDir(null);
+					}
+				}
+			} else if (no.getEsq() == null || no.getDir() == null) {
+
+				No noFilho = (no.getEsq() != null) ? no.getEsq() : no.getDir();
+
+				if (noPai == null) {
+					this.setRaiz(noFilho);
+				} else {
+					if (no == noPai.getEsq()) {
+						noPai.setEsq(noFilho);
+					} else {
+						noPai.setDir(noFilho);
+					}
+				}
+
+			} else {
+
+				No noSubstituto = getMaiorElementoDaArvore(no.getEsq());
+				no.setValor(noSubstituto.getValor());
+				removerElemento(no.getEsq(), noSubstituto.getValor());
+
+			}
+
 			return 1;
 		}
 		if (valorDoElemento < no.getValor()) {
